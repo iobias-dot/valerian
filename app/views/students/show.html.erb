@@ -25,6 +25,28 @@
   </tbody>
 </table>
 
+<h4>In case of emergency please contact: </h4>
+<table>
+  <thead>
+    <tr>
+      <th>Guardian Name</th>
+      <th>Email Address</th>
+      <th>Contact Number</th>
+      <th>Relationship to the Student</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @student.relationships.each do |relationship| %>
+      <tr>
+        <td><%= relationship.guardian.name %></td>
+        <td><%= relationship.guardian.email_address %></td>
+        <td><%= relationship.guardian.contact_number %></td>
+        <td><%= relationship.guardianship %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <div>
   <%= link_to "Edit this student", edit_student_path(@student) %> |
   <%= link_to "Back to students", students_path %>
