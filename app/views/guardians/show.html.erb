@@ -1,4 +1,4 @@
-<p style="color: green"><%= notice %></p>
+
 
 <%= render @guardian %>
 
@@ -12,10 +12,10 @@
     </tr>
   </thead>
   <tbody>
-    <% @guardian.relationships.each do |relationship| %>
+    <% @guardian.student_guardians.each do |student_guardian| %>
       <tr>
-        <td><%= relationship.student.name %></td>
-        <td><%= relationship.guardianship %></td>
+        <td><%= student_guardian.student.name %></td>
+        <td><%= student_guardian.guardianship %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,55 +1,86 @@
-<p style="color: green"><%= notice %></p>
+<div class="container bg-info bg-gradient bg-opacity-25 border border-3 border-light rounded-4 shadow-lg p-5 my-5">
+  <div class="card bg-light bg-opacity-50 border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-header bg-info bg-gradient bg-opacity-25 border-bottom border-light rounded-top-4">
+      <h4 class="fw-bold text-dark mb-0"><%= @student.name %></h4>
+    </div>
+    <div class="card-body text-dark">
+      <p><strong>Year Level:</strong> <%= @student.year_level %></p>
+      <p><strong>Program:</strong> <%= @student.program %></p>
+    </div>
+  </div>
 
-<%= render @student %>
+  <h5 class="fw-semibold text-dark mb-3">List of Subjects</h5>
 
-<h3>List of Subjects</h3>
+  <div class="table-responsive rounded-4 overflow-hidden shadow-sm">
+    <table class="table table-hover align-middle mb-4 bg-light bg-opacity-75">
+      <thead class="bg-primary bg-gradient text-white">
+        <tr>
+          <th>Section</th>
+          <th>Subject</th>
+          <th>Units</th>
+          <th>Teacher</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @student.classlists.each do |classlist| %>
+          <tr class="table-info bg-opacity-25">
+            <td><%= classlist.section.name %></td>
+            <td><%= classlist.section.subject.name %></td>
+            <td><%= classlist.section.subject.number_of_units %></td>
+            <td><%= classlist.section.subject.teacher.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot class="bg-info bg-opacity-25">
+        <tr>
+          <th colspan="2" class="text-end">Total Units:</th>
+          <th><%= @student.number_of_units %></th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Section</th>
-      <th>Subject</th>
-      <th>Number of Units</th>
-      <th>Teacher</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @student.classlists.each do |classlist| %>
-      <tr>
-        <td><%= classlist.section.name %></td>
-        <td><%= classlist.section.subject.name %></td>
-        <td><%= classlist.section.subject.number_of_units %></td>
-        <td><%= classlist.section.subject.teacher.name %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <h5 class="fw-semibold text-dark mb-3">In Case of Emergency</h5>
 
-<h4>In case of emergency please contact: </h4>
-<table>
-  <thead>
-    <tr>
-      <th>Guardian Name</th>
-      <th>Email Address</th>
-      <th>Contact Number</th>
-      <th>Relationship to the Student</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @student.relationships.each do |relationship| %>
-      <tr>
-        <td><%= relationship.guardian.name %></td>
-        <td><%= relationship.guardian.email_address %></td>
-        <td><%= relationship.guardian.contact_number %></td>
-        <td><%= relationship.guardianship %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="table-responsive rounded-4 overflow-hidden shadow-sm">
+    <table class="table table-hover align-middle mb-4 bg-light bg-opacity-75">
+      <thead class="bg-success bg-gradient text-white">
+        <tr>
+          <th>Guardian Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Relationship</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @student.student_guardians.each do |sg| %>
+          <tr class="table-success bg-opacity-25">
+            <td><%= sg.guardian.name %></td>
+            <td><%= sg.guardian.email_address %></td>
+            <td><%= sg.guardian.contact_number %></td>
+            <td><%= sg.guardianship %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot class="bg-success bg-opacity-25">
+        <tr>
+          <th colspan="2" class="text-end">Number of Guardians:</th>
+          <th><%= @student.number_of_guardians %></th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-<div>
-  <%= link_to "Edit this student", edit_student_path(@student) %> |
-  <%= link_to "Back to students", students_path %>
-
-  <%= button_to "Destroy this student", @student, method: :delete %>
+  <div class="d-flex justify-content-between align-items-center mt-4">
+    <%= link_to "← Back to Students", students_path, class: "btn btn-light bg-gradient border rounded-pill shadow-sm px-4" %>
+    <div class="btn-group">
+      <%= link_to "Edit Student", edit_student_path(@student), class: "btn btn-warning bg-gradient rounded-pill shadow-sm px-4" %>
+      <%= button_to "Delete", @student,
+          method: :delete,
+          data: { confirm: "Are you sure?" },
+          class: "btn btn-danger bg-gradient rounded-pill shadow-sm px-4" %>
+    </div>
+  </div>
 </div>

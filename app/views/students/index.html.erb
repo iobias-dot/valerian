@@ -1,32 +1,41 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Students" %>
 
-<h1>Students</h1>
+<div class="students-page d-flex justify-content-center align-items-start py-5" style="background: linear-gradient(135deg, #b3ecff 0%, #66ccff 40%, #0099cc 100%); min-height: 100vh;">
+  <div class="container bg-white bg-opacity-75 p-5 rounded-4 shadow-lg border border-3 border-light-subtle">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="fw-bold mb-0 text-dark">Students</h1>
+      <%= link_to "New Student", new_student_path, class: "btn btn-lg btn-light bg-gradient text-primary fw-semibold border border-2 border-primary-subtle shadow-sm px-4" %>
+    </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Year Level</th>
-      <th>Program</th>
-      <th>Department</th>
-      <th>Number of Units</th>
-      <th>Show</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @students.each do |student| %>
-      <tr>
-        <td><%= student.name %></td>
-        <td><%= student.year_level %></td>
-        <td><%= student.program %></td>
-        <td><%= student.department.name %></td>
-        <td><%= student.number_of_units %></td>
-        <td><%= link_to "Show this student", student %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to "New student", new_student_path %>
+    <div class="table-responsive">
+      <table class="table table-hover table-borderless align-middle text-dark">
+        <thead class="table-primary bg-gradient">
+          <tr>
+            <th>Name</th>
+            <th>Year Level</th>
+            <th>Program</th>
+            <th>Department</th>
+            <th>Units</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @students.each do |student| %>
+            <tr class="bg-light bg-opacity-50">
+              <td><%= student.name %></td>
+              <td><%= student.year_level %></td>
+              <td><%= student.program %></td>
+              <td><%= student.department.name %></td>
+              <td><%= student.number_of_units %></td>
+              <td class="text-center">
+                <%= link_to "Show", student, class: "btn btn-sm btn-info bg-gradient text-white fw-semibold shadow-sm me-2" %>
+                <%= link_to "Edit", edit_student_path(student), class: "btn btn-sm btn-warning bg-gradient text-dark fw-semibold shadow-sm me-2" %>
+                <%= link_to "Delete", student, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger bg-gradient text-white fw-semibold shadow-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

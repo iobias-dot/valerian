@@ -1,4 +1,4 @@
 class Guardian < ApplicationRecord
-    has_many :relationships
-    has_many :students, through: :relationships, dependent: :destroy
+    has_many :student_guardians
+    has_many :students, through: :student_guardians, dependent: :destroy
 end

@@ -1,37 +1,84 @@
-<%= form_with(model: student) do |form| %>
-  <% if student.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(student.errors.count, "error") %> prohibited this student from being saved:</h2>
+<div class="container p-5 rounded-4 shadow-lg" 
+     style="background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(173,216,230,0.8)); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5);">
 
-      <ul>
-        <% student.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+  <div class="card shadow-lg border-0 bg-light bg-opacity-75">
+    <div class="card-header bg-info bg-gradient text-white rounded-top">
+      <h5 class="mb-0 fw-semibold">
+        <%= student.new_record? ? "New Student" : "Edit Student" %>
+      </h5>
     </div>
-  <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+    <div class="card-body">
+      <%= form_with(model: student) do |f| %>
 
-  <div>
-    <%= form.label :year_level, style: "display: block" %>
-    <%= form.number_field :year_level %>
-  </div>
+        <% if student.errors.any? %>
+          <div class="alert alert-danger shadow-sm border-0">
+            <strong><%= pluralize(student.errors.count, "error") %> prevented this student from being saved:</strong>
+            <ul class="mb-0">
+              <% student.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-  <div>
-    <%= form.label :program, style: "display: block" %>
-    <%= form.text_field :program %>
-  </div>
+        <!-- Accordion Start -->
+        <div class="accordion shadow-sm" id="studentAccordion">
 
-  <div>
-    <%= form.label :department_id, "Department", style: "display: block" %>
-    <%= form.collection_select :department_id, Department.all, :id, :name, prompt: "Select a department" %>
-  </div>
+          <!-- BASIC INFORMATION -->
+          <div class="accordion-item border-0">
+            <h2 class="accordion-header" id="headingBasic">
+              <button class="accordion-button bg-primary bg-opacity-25 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="true" aria-controls="collapseBasic">
+                Basic Information
+              </button>
+            </h2>
+            <div id="collapseBasic" class="accordion-collapse collapse show" aria-labelledby="headingBasic" data-bs-parent="#studentAccordion">
+              <div class="accordion-body bg-white bg-opacity-75">
+                <div class="mb-3">
+                  <%= f.label :name, class: "form-label fw-bold" %>
+                  <%= f.text_field :name, class: "form-control border-0 shadow-sm bg-light bg-opacity-50", placeholder: "Enter student name" %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div>
-    <%= form.submit %>
+          <!-- EDUCATIONAL INFORMATION -->
+          <div class="accordion-item border-0">
+            <h2 class="accordion-header" id="headingEducational">
+              <button class="accordion-button collapsed bg-primary bg-opacity-25 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEducational" aria-expanded="false" aria-controls="collapseEducational">
+                Educational Information
+              </button>
+            </h2>
+            <div id="collapseEducational" class="accordion-collapse collapse" aria-labelledby="headingEducational" data-bs-parent="#studentAccordion">
+              <div class="accordion-body bg-white bg-opacity-75">
+                <div class="mb-3">
+                  <%= f.label :year_level, class: "form-label fw-bold" %>
+                  <%= f.number_field :year_level, class: "form-control border-0 shadow-sm bg-light bg-opacity-50", placeholder: "Enter current year level" %>
+                </div>
+                <div class="mb-3">
+                  <%= f.label :program, class: "form-label fw-bold" %>
+                  <%= f.text_field :program, class: "form-control border-0 shadow-sm bg-light bg-opacity-50", placeholder: "Enter program/course" %>
+                </div>
+                <div class="mb-3">
+                  <%= f.label :department_id, "Department", class: "form-label fw-bold" %>
+                  <%= f.collection_select :department_id, Department.all, :id, :name,
+                      { prompt: "Select a department" },
+                      { class: "form-select border-0 shadow-sm bg-light bg-opacity-50" } %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- Accordion End -->
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <%= link_to "← Back to Students", students_path, class: "btn btn-outline-secondary fw-semibold px-4 py-2 shadow-sm" %>
+          <%= f.submit(student.new_record? ? "Create Student" : "Update Student",
+              class: "btn btn-info bg-gradient text-white fw-semibold shadow-sm px-4 py-2") %>
+        </div>
+
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>

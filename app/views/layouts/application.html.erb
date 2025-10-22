@@ -10,19 +10,76 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <!-- Icons -->
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <!-- Stylesheets -->
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
   </head>
 
-  <body>
+  <body class="bg-info bg-gradient bg-opacity-50 min-vh-100 d-flex flex-column">
+    <!-- Layer 1: Soft base gradient -->
+    <div class="position-fixed top-0 start-0 w-100 h-100 bg-primary bg-gradient bg-opacity-25"></div>
+
+    <!-- Layer 2: Translucent glass panel -->
+    <div class="position-fixed top-0 start-0 w-100 h-100 bg-light bg-opacity-25"></div>
+
+    <!-- Content Layer -->
+    <div class="flex-grow-1 position-relative" style="z-index: 1;">
+      <nav class="navbar navbar-expand-lg bg-info bg-gradient bg-opacity-75 shadow-lg rounded-bottom-4 sticky-top">
+        <div class="container">
+          <span class="navbar-brand d-flex align-items-center text-white fw-bold fs-4">
+            🌊 School Manager
+          </span>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <%= link_to "Students", students_path, class: "nav-link text-white fw-semibold" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Teachers", teachers_path, class: "nav-link text-white fw-semibold" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sections", sections_path, class: "nav-link text-white fw-semibold" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Departments", departments_path, class: "nav-link text-white fw-semibold" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+    <!-- Flash Messages -->
+    <% flash.each do |key, message| %>
+      <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show text-center rounded-3 shadow-sm m-3" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
+    <!-- Page Content -->
     <%= yield %>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons (optional but recommended for the brand icon) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    >
   </body>
 </html>
